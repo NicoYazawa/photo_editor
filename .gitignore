@@ -1,0 +1,107 @@
+# ============================================================
+# Build outputs
+# ============================================================
+build/
+bin/
+out/
+*.exe
+*.dll
+*.so
+*.dylib
+*.obj
+*.o
+*.a
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.idb
+
+# xmake
+.xmake/
+*.xmake.lock
+
+# CMake (if used as fallback)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*.cmake
+
+# ============================================================
+# IDE / Editor
+# ============================================================
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.user
+*.suo
+*.sln.docstates
+
+# ============================================================
+# Secrets & credentials
+# ============================================================
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*.cert
+*.crt
+*.token
+credentials.*
+secrets.*
+*.password
+*_secret*
+*_private*
+
+# ============================================================
+# OS files
+# ============================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# ============================================================
+# Temp & logs
+# ============================================================
+*.log
+*.tmp
+*.temp
+*.bak
+*.cache
+tmp/
+temp/
+logs/
+
+# ============================================================
+# Package managers (not used but safety)
+# ============================================================
+node_modules/
+vendor/glad.zip
+*.7z
+*.tar.gz
+
+# ============================================================
+# Claude Code internal files (not project source)
+# ============================================================
+.claude/
+
+# ============================================================
+# Project-specific
+# ============================================================
+# Generated glad (committed as source, but if re-generated, keep out)
+vendor/glad/src/*.o
+vendor/glad/src/*.obj
+
+# ImGui demo (not needed)
+vendor/imgui/imgui_demo.cpp
