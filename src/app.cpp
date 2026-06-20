@@ -71,6 +71,7 @@ App::App()
     reg.registerFilter("color.brightness_contrast", []{ return std::make_unique<BrightnessContrastFilter>(); });
     reg.registerFilter("color.color_balance", []{ return std::make_unique<ColorBalanceFilter>(); });
     reg.registerFilter("color.threshold", []{ return std::make_unique<ThresholdFilter>(); });
+    reg.registerFilter("color.saturation", []{ return std::make_unique<SaturationFilter>(); });
     reg.registerFilter("blur.gaussian", []{ return std::make_unique<GaussianBlurFilter>(); });
     reg.registerFilter("blur.box", []{ return std::make_unique<BoxBlurFilter>(); });
     reg.registerFilter("edge.sobel", []{ return std::make_unique<SobelFilter>(); });
@@ -96,6 +97,12 @@ void App::run()
     {
         m_glContext->beginFrame();
         m_uiManager->render();
+
+        // Re-execute pipeline every frame so parameter slider
+        // changes take effect on the result image immediately.
+        if (!m_filters.empty())
+            executePipeline();
+
         m_glContext->endFrame();
     }
 }

@@ -47,7 +47,9 @@ void main() {
     FragColor = vec4(clamp(result, 0.0, 1.0), c.a);
 }
 )";
+
 const char* BrightnessContrastFilter::fragmentShaderSource() const { return kBCFrag; }
+
 void BrightnessContrastFilter::setUniforms(Shader& shader) {
     shader.setFloat("uBrightness", brightness);
     shader.setFloat("uContrast", contrast);
@@ -87,4 +89,32 @@ void ColorBalanceFilter::renderConfigUI() {
 }
 std::unique_ptr<FilterBase> ColorBalanceFilter::clone() const {
     return std::make_unique<ColorBalanceFilter>(*this);
+}
+
+// ============ Saturation ============
+static const char* kSFrag = R"(
+#version 460 core
+in vec2 vTexCoord; out vec4 FragColor;
+uniform sampler2D uTexture;
+uniform float uSaturation;
+void main() {
+    vec4 c = texture(uTexture, vTexCoord);
+    float gray = dot(c.rgb, vec3(0.2126, 0.7152, 0.0722));
+    vec3 result = mix(vec3(gray), c.rgb, uSaturation);
+    result = clamp(result, 0.0, 1.0);
+
+    FragColor = vec4(result, c.a);
+}
+)";
+
+const char* SaturationFilter::fragmentShaderSource() const { return kSFrag; }
+
+void SaturationFilter::setUniforms(Shader& shader) {
+    shader.setFloat("uSaturation", saturation);
+}
+void SaturationFilter::renderConfigUI() {
+    ImGui::SliderFloat("Saturation", &saturation, 0.0f, 2.0f);
+}
+std::unique_ptr<FilterBase> SaturationFilter::clone() const {
+    return std::make_unique<SaturationFilter>(*this);
 }

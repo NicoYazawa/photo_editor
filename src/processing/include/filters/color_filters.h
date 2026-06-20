@@ -53,3 +53,18 @@ public:
     float greenShift = 0.0f;  // [-1.0, 1.0]
     float blueShift = 0.0f;   // [-1.0, 1.0]
 };
+
+class SaturationFilter : public FilterBase
+{
+public:
+    std::string name() const override { return "Saturation"; }
+    std::string category() const override { return "Color"; }
+    std::string key() const override { return "color.saturation"; }
+    const char* fragmentShaderSource() const override;
+    void setUniforms(class Shader& shader) override;
+    bool hasConfigUI() const override { return true; }
+    void renderConfigUI() override;
+    std::unique_ptr<FilterBase> clone() const override;
+
+    float saturation = 1.5f;
+};
