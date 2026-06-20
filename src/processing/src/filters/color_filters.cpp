@@ -15,6 +15,7 @@ void main() {
 }
 )";
 const char* GrayscaleFilter::fragmentShaderSource() const { return kGrayFrag; }
+
 std::unique_ptr<FilterBase> GrayscaleFilter::clone() const {
     return std::make_unique<GrayscaleFilter>(*this);
 }
@@ -30,6 +31,7 @@ void main() {
 }
 )";
 const char* InvertFilter::fragmentShaderSource() const { return kInvertFrag; }
+
 std::unique_ptr<FilterBase> InvertFilter::clone() const {
     return std::make_unique<InvertFilter>(*this);
 }
@@ -54,10 +56,12 @@ void BrightnessContrastFilter::setUniforms(Shader& shader) {
     shader.setFloat("uBrightness", brightness);
     shader.setFloat("uContrast", contrast);
 }
+
 void BrightnessContrastFilter::renderConfigUI() {
     ImGui::SliderFloat("Brightness", &brightness, -1.0f, 1.0f);
     ImGui::SliderFloat("Contrast", &contrast, 0.0f, 3.0f);
 }
+
 std::unique_ptr<FilterBase> BrightnessContrastFilter::clone() const {
     return std::make_unique<BrightnessContrastFilter>(*this);
 }
@@ -77,16 +81,19 @@ void main() {
 }
 )";
 const char* ColorBalanceFilter::fragmentShaderSource() const { return kCBFrag; }
+
 void ColorBalanceFilter::setUniforms(Shader& shader) {
     shader.setFloat("uRedShift", redShift);
     shader.setFloat("uGreenShift", greenShift);
     shader.setFloat("uBlueShift", blueShift);
 }
+
 void ColorBalanceFilter::renderConfigUI() {
     ImGui::SliderFloat("Red Shift", &redShift, -1.0f, 1.0f);
     ImGui::SliderFloat("Green Shift", &greenShift, -1.0f, 1.0f);
     ImGui::SliderFloat("Blue Shift", &blueShift, -1.0f, 1.0f);
 }
+
 std::unique_ptr<FilterBase> ColorBalanceFilter::clone() const {
     return std::make_unique<ColorBalanceFilter>(*this);
 }
@@ -112,9 +119,11 @@ const char* SaturationFilter::fragmentShaderSource() const { return kSFrag; }
 void SaturationFilter::setUniforms(Shader& shader) {
     shader.setFloat("uSaturation", saturation);
 }
+
 void SaturationFilter::renderConfigUI() {
     ImGui::SliderFloat("Saturation", &saturation, 0.0f, 2.0f);
 }
+
 std::unique_ptr<FilterBase> SaturationFilter::clone() const {
     return std::make_unique<SaturationFilter>(*this);
 }

@@ -29,6 +29,7 @@ void main() {
 }
 )";
 const char* SobelFilter::fragmentShaderSource() const { return kSobelFrag; }
+
 std::unique_ptr<FilterBase> SobelFilter::clone() const {
     return std::make_unique<SobelFilter>(*this);
 }
@@ -52,6 +53,7 @@ void main() {
 }
 )";
 const char* LaplacianFilter::fragmentShaderSource() const { return kLaplacianFrag; }
+
 std::unique_ptr<FilterBase> LaplacianFilter::clone() const {
     return std::make_unique<LaplacianFilter>(*this);
 }
@@ -78,12 +80,15 @@ void main() {
 }
 )";
 const char* SharpenFilter::fragmentShaderSource() const { return kSharpenFrag; }
+
 void SharpenFilter::setUniforms(Shader& shader) {
     shader.setFloat("uStrength", strength);
 }
+
 void SharpenFilter::renderConfigUI() {
     ImGui::SliderFloat("Strength", &strength, 0.0f, 3.0f);
 }
+
 std::unique_ptr<FilterBase> SharpenFilter::clone() const {
     return std::make_unique<SharpenFilter>(*this);
 }

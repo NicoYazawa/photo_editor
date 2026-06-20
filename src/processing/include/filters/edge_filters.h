@@ -33,5 +33,6 @@ public:
     void renderConfigUI() override;
     std::unique_ptr<FilterBase> clone() const override;
 
+private:
     float strength = 1.0f; // [0.0, 3.0]
 };

@@ -33,6 +33,7 @@ public:
     void renderConfigUI() override;
     std::unique_ptr<FilterBase> clone() const override;
 
+private:
     float brightness = 0.0f;   // [-1.0, 1.0]
     float contrast = 1.0f;     // [0.0, 3.0]
 };
@@ -49,6 +50,7 @@ public:
     void renderConfigUI() override;
     std::unique_ptr<FilterBase> clone() const override;
 
+private:
     float redShift = 0.0f;    // [-1.0, 1.0]
     float greenShift = 0.0f;  // [-1.0, 1.0]
     float blueShift = 0.0f;   // [-1.0, 1.0]
@@ -66,5 +68,6 @@ public:
     void renderConfigUI() override;
     std::unique_ptr<FilterBase> clone() const override;
 
+private:
     float saturation = 1.5f;
 };

@@ -14,6 +14,7 @@ public:
     void renderConfigUI() override;
     std::unique_ptr<FilterBase> clone() const override;
 
+private:
     int kernelSize = 5;   // must be odd, clamped in UI
     float sigma = 2.0f;
 };
@@ -31,5 +32,6 @@ public:
     void renderConfigUI() override;
     std::unique_ptr<FilterBase> clone() const override;
 
+private:
     int radius = 3;
 };
