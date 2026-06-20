@@ -1,9 +1,9 @@
 #include "filter_pipeline.h"
 #include "filter_base.h"
 
-#include "../rendering/fbo.h"
-#include "../rendering/fullscreen_quad.h"
-#include "../rendering/shader.h"
+#include "fbo.h"
+#include "fullscreen_quad.h"
+#include "shader.h"
 
 #include <glad/glad.h>
 #include <cstdio>

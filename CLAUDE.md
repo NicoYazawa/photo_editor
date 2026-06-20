@@ -30,16 +30,20 @@ main.cpp → App::run() → GLContext::beginFrame → UIManager::render → GLCo
 
 ### Layer map
 
+Each module uses `include/` for headers and `src/` for sources:
+
 | Layer | Dir | Role |
 |---|---|---|
 | Entry | `src/main.cpp` | Creates App, calls run |
 | Application | `src/app.cpp/.h` | State, filter orchestration, undo/redo |
-| UI | `src/ui/` | ImGui DockSpace layout, ImagePanel, menus |
-| Processing | `src/processing/` | FilterBase interface, registry, FBO ping-pong pipeline |
-| Filters | `src/processing/filters/` | Concrete GLSL shader filter implementations |
-| Rendering | `src/rendering/` | GLContext, Texture, Shader, FBO, FullscreenQuad |
-| Utils | `src/utils/` | stb_image I/O, Windows file dialog |
+| UI | `src/ui/{include,src}/` | ImGui DockSpace layout, ImagePanel, menus |
+| Processing | `src/processing/{include,src}/` | FilterBase interface, registry, FBO ping-pong pipeline |
+| Filters | `src/processing/{include,src}/filters/` | Concrete GLSL shader filter implementations |
+| Rendering | `src/rendering/{include,src}/` | GLContext, Texture, Shader, FBO, FullscreenQuad |
+| Utils | `src/utils/{include,src}/` | stb_image I/O, Windows file dialog |
 | Vendored | `vendor/` | ImGui docking src, glad, stb headers |
+
+Include paths (from `xmake.lua`): `src`, `src/*/include` — all project headers accessible by bare name or sub-path (e.g. `#include "filter_base.h"`, `#include "filters/color_filters.h"`).
 
 ### Data flow: applying a filter
 
@@ -60,11 +64,12 @@ main.cpp → App::run() → GLContext::beginFrame → UIManager::render → GLCo
 
 ## Adding a new filter
 
-1. Create header in `src/processing/filters/` extending `FilterBase` (see existing for pattern)
-2. Implement: `name()`, `category()`, `key()`, `fragmentShaderSource()`, `clone()`
-3. Optional: `hasConfigUI()` + `renderConfigUI()` for parameter sliders; `setUniforms(Shader&)` to pass values to shader
-4. Register in `App::App()` (app.cpp): `reg.registerFilter("category.key", []{ return std::make_unique<MyFilter>(); });`
-5. Add `#include` and the cpp file will be picked up by `add_files("src/**.cpp")` automatically
+1. Create header in `src/processing/include/filters/` extending `FilterBase` (see existing for pattern)
+2. Create source in `src/processing/src/filters/` with the implementation
+3. Implement: `name()`, `category()`, `key()`, `fragmentShaderSource()`, `clone()`
+4. Optional: `hasConfigUI()` + `renderConfigUI()` for parameter sliders; `setUniforms(Shader&)` to pass values to shader
+5. Register in `App::App()` (app.cpp): `reg.registerFilter("category.key", []{ return std::make_unique<MyFilter>(); });`
+6. Add `#include "filters/my_filter.h"` — cpp file picked up by `add_files("src/**.cpp")` automatically
 
 ## Filter categories (for menu grouping)
 

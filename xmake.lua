@@ -9,6 +9,13 @@ add_requires("glfw")
 target("photo_editor")
     set_kind("binary")
 
+    -- App headers
+    add_includedirs("src")
+    add_includedirs("src/processing/include")
+    add_includedirs("src/rendering/include")
+    add_includedirs("src/ui/include")
+    add_includedirs("src/utils/include")
+
     -- App sources
     add_files("src/**.cpp")
 

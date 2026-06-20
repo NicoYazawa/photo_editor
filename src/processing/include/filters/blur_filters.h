@@ -1,5 +1,5 @@
 #pragma once
-#include "../filter_base.h"
+#include "filter_base.h"
 
 class GaussianBlurFilter : public FilterBase
 {

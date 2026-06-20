@@ -1,8 +1,8 @@
 #include "ui_manager.h"
 #include "image_panel.h"
 
-#include "../processing/filter_base.h"
-#include "../processing/filter_registry.h"
+#include "filter_base.h"
+#include "filter_registry.h"
 
 #include <imgui.h>
 #include <imgui_internal.h>

@@ -1,5 +1,5 @@
-#include "threshold_filter.h"
-#include "../../rendering/shader.h"
+#include "filters/threshold_filter.h"
+#include "shader.h"
 
 #include <imgui.h>
 

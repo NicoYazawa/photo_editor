@@ -1,5 +1,5 @@
-#include "edge_filters.h"
-#include "../../rendering/shader.h"
+#include "filters/edge_filters.h"
+#include "shader.h"
 
 #include <imgui.h>
 

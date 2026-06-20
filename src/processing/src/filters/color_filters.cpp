@@ -1,5 +1,5 @@
-#include "color_filters.h"
-#include "../../rendering/shader.h"
+#include "filters/color_filters.h"
+#include "shader.h"
 
 #include <imgui.h>
 

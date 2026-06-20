@@ -82,36 +82,60 @@ xmake run -y
 
 ### 文件结构
 
+每个模块内部区分 `include/`（头文件）和 `src/`（源文件）：
+
 ```
 src/
-├── main.cpp                          # 程序入口
-├── app.cpp / app.h                   # 应用状态、滤镜调度、撤销/重做
+├── main.cpp                                 # 程序入口
+├── app.cpp / app.h                          # 应用状态、滤镜调度、撤销/重做
 ├── ui/
-│   ├── ui_manager.cpp / .h           # DockSpace 布局、菜单栏、状态栏
-│   └── image_panel.cpp / .h          # 图像显示面板（缩放/平移）
+│   ├── include/
+│   │   ├── ui_manager.h                     # DockSpace 布局、菜单栏、状态栏
+│   │   └── image_panel.h                    # 图像显示面板（缩放/平移）
+│   └── src/
+│       ├── ui_manager.cpp
+│       └── image_panel.cpp
 ├── processing/
-│   ├── filter_base.h                 # 滤镜抽象接口
-│   ├── filter_registry.cpp / .h      # 滤镜注册表（名称→工厂函数）
-│   ├── filter_pipeline.cpp / .h      # FBO ping-pong 执行管线
-│   └── filters/
-│       ├── color_filters.cpp / .h    # 灰度、反色、亮度/对比度、色彩平衡
-│       ├── blur_filters.cpp / .h     # 高斯模糊（两 pass）、均值模糊
-│       ├── edge_filters.cpp / .h     # Sobel、Laplacian、锐化
-│       └── threshold_filter.cpp / .h # 可调阈值
+│   ├── include/
+│   │   ├── filter_base.h                    # 滤镜抽象接口
+│   │   ├── filter_registry.h                # 滤镜注册表（名称→工厂函数）
+│   │   ├── filter_pipeline.h                # FBO ping-pong 执行管线
+│   │   └── filters/
+│   │       ├── color_filters.h              # 灰度、反色、亮度/对比度、色彩平衡
+│   │       ├── blur_filters.h               # 高斯模糊（两 pass）、均值模糊
+│   │       ├── edge_filters.h               # Sobel、Laplacian、锐化
+│   │       └── threshold_filter.h           # 可调阈值
+│   └── src/
+│       ├── filter_pipeline.cpp
+│       ├── filter_registry.cpp
+│       └── filters/
+│           ├── color_filters.cpp
+│           ├── blur_filters.cpp
+│           ├── edge_filters.cpp
+│           └── threshold_filter.cpp
 ├── rendering/
-│   ├── gl_context.cpp / .h           # GLFW 窗口 + OpenGL 上下文
-│   ├── texture.cpp / .h              # GL 纹理 RAII 封装
-│   ├── shader.cpp / .h               # Shader 编译/链接/Uniform
-│   ├── fbo.cpp / .h                  # FBO + 颜色附件
-│   └── fullscreen_quad.cpp / .h      # 全屏四边形 VAO
+│   ├── include/
+│   │   ├── gl_context.h                     # GLFW 窗口 + OpenGL 上下文
+│   │   ├── texture.h                        # GL 纹理 RAII 封装
+│   │   ├── shader.h                         # Shader 编译/链接/Uniform
+│   │   ├── fbo.h                            # FBO + 颜色附件
+│   │   └── fullscreen_quad.h                # 全屏四边形 VAO
+│   └── src/
+│       ├── gl_context.cpp
+│       ├── texture.cpp
+│       ├── shader.cpp
+│       ├── fbo.cpp
+│       └── fullscreen_quad.cpp
 └── utils/
-    ├── image_io.cpp / .h             # stb_image 加载/保存
-    └── ...                           # 文件对话框
+    ├── include/
+    │   └── image_io.h                       # stb_image 加载/保存
+    └── src/
+        └── image_io.cpp
 vendor/
-├── imgui/                            # Dear ImGui (docking 分支)
-├── glad/                             # OpenGL 4.6 loader (预生成)
-├── stb_image.h / stb_image_write.h   # 图像 I/O
-xmake.lua                             # 构建配置
+├── imgui/                                   # Dear ImGui (docking 分支)
+├── glad/                                    # OpenGL 4.6 loader (预生成)
+├── stb_image.h / stb_image_write.h          # 图像 I/O
+xmake.lua                                    # 构建配置
 ```
 
 ---
@@ -120,11 +144,11 @@ xmake.lua                             # 构建配置
 
 ### Step 1: 创建滤镜头文件
 
-在 `src/processing/filters/` 下创建 `my_filter.h`:
+在 `src/processing/include/filters/` 下创建 `my_filter.h`:
 
 ```cpp
 #pragma once
-#include "../filter_base.h"
+#include "filter_base.h"
 
 class MyFilter : public FilterBase
 {
@@ -146,11 +170,11 @@ public:
 
 ### Step 2: 实现滤镜
 
-在对应的 `.cpp` 文件中:
+在 `src/processing/src/filters/` 下创建对应的 `.cpp` 文件:
 
 ```cpp
-#include "my_filter.h"
-#include "../../rendering/shader.h"
+#include "filters/my_filter.h"
+#include "shader.h"
 #include <imgui.h>
 
 static const char* kMyShader = R"(
@@ -193,7 +217,7 @@ reg.registerFilter("color.my_filter",
 同时添加 `#include`:
 
 ```cpp
-#include "processing/filters/my_filter.h"
+#include "filters/my_filter.h"
 ```
 
 ### Step 4: 构建
@@ -217,7 +241,7 @@ void setUniformsForPass(Shader& shader, int pass) override {
 }
 ```
 
-参考: [blur_filters.h](src/processing/filters/blur_filters.h)
+参考: [blur_filters.h](src/processing/include/filters/blur_filters.h)
 
 ### Shader 可用的内置 Uniform
 

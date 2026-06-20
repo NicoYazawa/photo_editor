@@ -1,24 +1,24 @@
 #include "app.h"
 
-#include "rendering/gl_context.h"
-#include "rendering/texture.h"
-#include "rendering/fbo.h"
-#include "rendering/fullscreen_quad.h"
-#include "rendering/shader.h"
+#include "gl_context.h"
+#include "texture.h"
+#include "fbo.h"
+#include "fullscreen_quad.h"
+#include "shader.h"
 
-#include "processing/filter_base.h"
-#include "processing/filter_pipeline.h"
-#include "processing/filter_registry.h"
+#include "filter_base.h"
+#include "filter_pipeline.h"
+#include "filter_registry.h"
 
-#include "processing/filters/color_filters.h"
-#include "processing/filters/blur_filters.h"
-#include "processing/filters/edge_filters.h"
-#include "processing/filters/threshold_filter.h"
+#include "filters/color_filters.h"
+#include "filters/blur_filters.h"
+#include "filters/edge_filters.h"
+#include "filters/threshold_filter.h"
 
-#include "ui/ui_manager.h"
-#include "ui/image_panel.h"
+#include "ui_manager.h"
+#include "image_panel.h"
 
-#include "utils/image_io.h"
+#include "image_io.h"
 
 #include <glad/glad.h>
 #include <imgui.h>

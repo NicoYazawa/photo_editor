@@ -1,5 +1,5 @@
-#include "blur_filters.h"
-#include "../../rendering/shader.h"
+#include "filters/blur_filters.h"
+#include "shader.h"
 
 #include <imgui.h>
 #include <cmath>
